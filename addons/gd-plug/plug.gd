@@ -589,7 +589,7 @@ func directory_copy_recursively(from, to, args={}):
 		while not file_name.is_empty():
 			var source = dir.get_current_dir() + ("/" if dir.get_current_dir() != "res://" else "") + file_name
 			var dest = to + ("/" if to != "res://" else "") + file_name
-			
+
 			if dir.current_is_dir():
 				dest_files += directory_copy_recursively(source, dest, args)
 			else:
@@ -613,7 +613,7 @@ func directory_copy_recursively(from, to, args={}):
 		dir.list_dir_end()
 	else:
 		logger.error("Failed to access path: %s" % from)
-	
+
 	return dest_files
 
 func directory_delete_recursively(dir_path, args={}):
@@ -628,7 +628,7 @@ func directory_delete_recursively(dir_path, args={}):
 		var file_name = dir.get_next()
 		while not file_name.is_empty():
 			var source = dir.get_current_dir() + ("/" if dir.get_current_dir() != "res://" else "") + file_name
-			
+
 			if dir.current_is_dir():
 				var sub_dir = directory_delete_recursively(source, args)
 				if remove_empty_directory:
@@ -690,7 +690,7 @@ func directory_remove_batch(files, args={}):
 		var file_dir = file.get_base_dir()
 		var file_name =file.get_file()
 		var dir = dirs.get(file_dir)
-		
+
 		if not dir:
 			dir = DirAccess.open(file_dir)
 			dirs[file_dir] = dir
@@ -706,7 +706,7 @@ func directory_remove_batch(files, args={}):
 					logger.debug("Remove file: " + file)
 			if not keep_import_file:
 				_remove_import_file(dir, file + ".import", keep_import_resource_file, test, silent_test)
-		
+
 	for dir in dirs.values():
 		var slash_count = dir.get_current_dir().count("/") - 2 # Deduct 2 slash from "res://"
 		if test:
@@ -929,7 +929,7 @@ class _GitExecutable extends RefCounted:
 			var branch = args.get("branch", "")
 			var tag = args.get("tag", "")
 			var commit = args.get("commit", "")
-	
+
 			if branch:
 				if branch == get_current_branch():
 					return FAILED if is_detached_head() else OK
@@ -939,7 +939,7 @@ class _GitExecutable extends RefCounted:
 			elif commit:
 				if commit == get_current_commit():
 					return OK
-	
+
 			var ahead_behind = get_commit_comparison("HEAD", "origin")
 			var is_commit_behind = !!ahead_behind[1] if ahead_behind.size() == 2 else false
 			return FAILED if is_commit_behind else OK
@@ -1056,7 +1056,7 @@ class _Logger extends RefCounted:
 	}
 	const DEFAULT_LOG_FORMAT_DETAIL = "[{time}] [{level}] {msg}"
 	const DEFAULT_LOG_FORMAT_NORMAL = "{msg}"
-	
+
 	var log_level = LogLevel.INFO
 	var log_format = DEFAULT_LOG_FORMAT_NORMAL
 	var log_time_format = "{year}/{month}/{day} {hour}:{minute}:{second}"
@@ -1082,7 +1082,7 @@ class _Logger extends RefCounted:
 	func _log(level, msg, raw=false):
 		if is_locked:
 			return
-		
+
 		if typeof(msg) != TYPE_STRING:
 			msg = str(msg)
 		if log_level <= level:
@@ -1106,14 +1106,14 @@ class _Logger extends RefCounted:
 
 	func indent():
 		indent_level += 1
-	
+
 	func dedent():
 		indent_level -= 1
 		max(indent_level, 0)
-	
+
 	func lock():
 		is_locked = true
-	
+
 	func unlock():
 		is_locked = false
 
@@ -1134,12 +1134,12 @@ class _Logger extends RefCounted:
 				else:
 					text += column
 			info(text)
-		
+
 		_rows.clear()
 		_rows = null
 		_max_column_length.clear()
 		_max_column_size = 0
-	
+
 	func table_row(columns=[]):
 		assert(_rows != null, "Expected table_start() to be called first")
 		_rows.append(columns)
@@ -1151,7 +1151,7 @@ class _Logger extends RefCounted:
 				_max_column_length[i] = max(max_column_length, column.length())
 			else:
 				_max_column_length.append(column.length())
-	
+
 	func get_formatted_datatime():
 		var datetime = Time.get_datetime_dict_from_system()
 		datetime.year = "%04d" % datetime.year
